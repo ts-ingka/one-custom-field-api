@@ -4,9 +4,7 @@ from . import models, schemas
 
 
 def get_user(db: Session, client_id: str):
-    return (
-        db.query(models.User).filter(models.User.client_id == client_id).first()
-    )
+    return db.query(models.User).filter(models.User.client_id == client_id).first()
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 1000):
@@ -22,9 +20,7 @@ def create_user(db: Session, user: schemas.User):
 
 
 def get_datasource(db: Session, id: int):
-    return (
-        db.query(models.DataSource).filter(models.DataSource.id == id).first()
-    )
+    return db.query(models.DataSource).filter(models.DataSource.id == id).first()
 
 
 def get_datasources(db: Session, skip: int = 0, limit: int = 1000):
@@ -32,7 +28,7 @@ def get_datasources(db: Session, skip: int = 0, limit: int = 1000):
 
 
 def create_datasource(db: Session, datasource: schemas.DataSource):
-    db_datasource = models.DataSource(**datasource.to_dict())
+    db_datasource = models.DataSource(**datasource.dict())
     db.add(db_datasource)
     db.commit()
     db.refresh(db_datasource)
