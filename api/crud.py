@@ -1,10 +1,15 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from . import models, schemas
 
 
 def get_user(db: Session, client_id: str):
-    return db.query(models.User).filter(models.User.client_id == client_id).first()
+    return (
+        db.query(models.User)
+        .options(joinedload(models.User.datasources))
+        .filter(models.User.client_id == client_id)
+        .first()
+    )
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 1000):

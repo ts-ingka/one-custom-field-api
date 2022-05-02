@@ -4,3 +4,9 @@ Run
 ```
 uvicorn main:app --reload
 ```
+
+
+
+# Alembic
+# Unit Tests !
+# Dockerise 

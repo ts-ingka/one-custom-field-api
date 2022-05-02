@@ -1,3 +1,4 @@
+from http import client
 import uvicorn
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
@@ -32,6 +33,12 @@ def create_user(user: schemas.UserBase, db: Session = Depends(get_db)):
 def get_users(skip: int = 0, limit: int = 1000, db: Session = Depends(get_db)):
     db_users = crud.get_users(db=db, skip=skip, limit=limit)
     return db_users
+
+
+@app.get("/user/{user_id}", response_model=schemas.UserBase)
+def get_user(user_id: str, db: Session = Depends(get_db)):
+    db_user = crud.get_user(db=db, client_id=user_id)
+    return db_user
 
 
 @app.post("/datasources", response_model=schemas.DataSourceBase, status_code=201)
